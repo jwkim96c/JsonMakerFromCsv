@@ -12,15 +12,12 @@ var outputFilename = args[1];
 var walletColumn = args.Length >= 3 ? Convert.ToInt32(args[2]) : 2;
 var amountColumn = args.Length >= 4 ? Convert.ToInt32(args[3]) : 3;
 
-StreamReader? reader = null;
-StreamWriter? writer = null;
-
 var errorAddress = new List<String?>();
 Console.WriteLine("###### Program Start.");
 try
 {
-    reader = new StreamReader($"{inputFilename}");
-    writer = new StreamWriter($"{outputFilename}");
+    using var reader = new StreamReader($"{inputFilename}");
+    using var writer = new StreamWriter($"{outputFilename}");
 
     writer.WriteLine("[");
 
@@ -68,11 +65,6 @@ catch (Exception e)
     Console.WriteLine(e.GetType() + " " + e.Message);
     if (e is not FileNotFoundException)
         Console.WriteLine(e.StackTrace);
-}
-finally
-{
-    reader?.Dispose();
-    writer?.Dispose();
 }
 
 if (errorAddress.Any())
