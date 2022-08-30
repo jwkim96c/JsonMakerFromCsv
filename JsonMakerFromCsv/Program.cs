@@ -41,13 +41,15 @@ try
             Environment.Exit(2);
         }
 
-        if (Regex.IsMatch(values[walletColumn], "terra1[a-z0-9]{38}") == false)
+        var walletValue = values[walletColumn].Trim();
+        var amountValue = values[amountColumn].Trim();
+        if (Regex.IsMatch(walletValue, "^terra1[a-z0-9]{38}$") == false)
             errorAddress.Add(line);
 
         var arr = new[]
         {
-            values[walletColumn],
-            values[amountColumn],
+            walletValue,
+            amountValue,
         };
         var jsonEncoded = JsonSerializer.Serialize(arr);
         if (isFirstWrite)
